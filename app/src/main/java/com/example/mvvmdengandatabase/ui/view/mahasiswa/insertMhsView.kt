@@ -34,9 +34,8 @@ import com.example.mvvmdengandatabase.ui.viewmodel.MhsUiState
 import com.example.mvvmdengandatabase.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
-
-object DestinasiInsert : AlamatNavigasi{
-    override val route : String = "insert_mhs"
+object DestinasiInsert : AlamatNavigasi {
+    override val route: String = "insert_mhs"
 }
 
 @Composable
@@ -126,6 +125,7 @@ fun FormMahasiswa(
     modifier: Modifier = Modifier
 ) {
     val jenisKelamin = listOf("Laki-laki", "Perempuan")
+    val kelas = listOf("A", "B", "C", "D", "E")
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -147,16 +147,16 @@ fun FormMahasiswa(
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = mahasiswaEvent.alamat,
+            value = mahasiswaEvent.nim,
             onValueChange = {
-                onValueChange(mahasiswaEvent.copy(alamat = it))
+                onValueChange(mahasiswaEvent.copy(nim = it))
             },
-            label = { Text("Alamat") },
-            isError = errorState.alamat != null,
-            placeholder = { Text("Masukan Alamat") }
+            label = { Text("NIM") },
+            isError = errorState.nim != null,
+            placeholder = { Text("Masukan NIM") }
         )
         Text(
-            text = errorState.alamat ?: "",
+            text = errorState.nim ?: "",
             color = Color.Red
         )
 
@@ -180,18 +180,45 @@ fun FormMahasiswa(
                 }
             }
         }
-
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = mahasiswaEvent.kelas,
+            value = mahasiswaEvent.alamat,
             onValueChange = {
-                onValueChange(mahasiswaEvent.copy(kelas = it))
+                onValueChange(mahasiswaEvent.copy(alamat = it))
             },
-            label = { Text("Kelas") },
-            isError = errorState.kelas != null,
-            placeholder = { Text("Masukan Kelas") }
+            label = { Text("Alamat") },
+            isError = errorState.alamat != null,
+            placeholder = { Text("Masukan Alamat Anda") }
         )
-        Text(text = errorState.kelas ?: "", color = Color.Red)
+        Text(
+            text = errorState.alamat ?: "",
+            color = Color.Red
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = "Kelas")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            kelas.forEach { kls ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = mahasiswaEvent.kelas == kls,
+                        onClick = {
+                            onValueChange(mahasiswaEvent.copy(kelas = kls))
+                        }
+                    )
+                    Text(text = kls)
+                }
+            }
+        }
+        Text(
+            text = errorState.kelas ?: "",
+            color = Color.Red
+        )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),

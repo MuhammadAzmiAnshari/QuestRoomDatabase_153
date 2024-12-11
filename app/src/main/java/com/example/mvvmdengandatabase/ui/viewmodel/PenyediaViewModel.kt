@@ -5,13 +5,14 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.mvvmdengandatabase.KrsApp
+import com.example.mvvmdengandatabase.repository.LocalRepositoryMhs
 
 
 object PenyediaViewModel{
     val Factory = viewModelFactory {
         initializer {
             MahasiswaViewModel(
-                krsApp().containerApp.RepositoryMhs
+                krsApp().containerApp.RepositoryMhs as LocalRepositoryMhs
             )
         }
     }

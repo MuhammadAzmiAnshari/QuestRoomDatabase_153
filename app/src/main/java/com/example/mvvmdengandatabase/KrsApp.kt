@@ -1,7 +1,8 @@
 package com.example.mvvmdengandatabase
 
+import ContainerApp
 import android.app.Application
-import com.example.mvvmdengandatabase.dependeciesinjection.ContainerApp
+
 
 class KrsApp : Application() {
     lateinit var containerApp: ContainerApp //Fungsinya untuk menyimpan
@@ -12,4 +13,3 @@ class KrsApp : Application() {
         //Instance adalah object yang dibuat dari class
     }
 }
-
