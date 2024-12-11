@@ -10,36 +10,36 @@ import com.example.mvvmdengandatabase.repository.LocalRepositoryMhs
 import kotlinx.coroutines.launch
 
 
-class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs): ViewModel(){
-    var  uiState by mutableStateOf(MhsUiState())
+class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewModel() {
+    var uiState by mutableStateOf(MhsUiState())
 
     // Memperbarui state berdasarkan input pengguna
-    fun updateState(mahasiswaEvent: MahasiswaEvent){
+    fun updateState(mahasiswaEvent: MahasiswaEvent) {
         uiState = uiState.copy(
             mahasiswaEvent = mahasiswaEvent
         )
     }
 
     // Validasi data input pengguna
-    private fun validateFields(): Boolean{
+    private fun validateFields(): Boolean {
         val event = uiState.mahasiswaEvent
         val errorState = FormErrorState(
             nim = if (event.nim.isNotEmpty()) null else "Nim tidak boleh kosong",
-            nama = if (event.nim.isNotEmpty()) null else "Nama tidak boleh kosong",
-            jenisKelamin = if (event.nim.isNotEmpty()) null else "Jenis Kelamin tidak boleh kosong ",
-            alamat = if (event.nim.isNotEmpty()) null else "Alamat tidak boleh kosong",
-            kelas = if (event.nim.isNotEmpty()) null else "Kelas tidak boleh kosong",
-            angkatan = if (event.nim.isNotEmpty()) null else "Angkatan tidak boleh kosong",
+            nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
+            jenisKelamin = if (event.jenisKelamin.isNotEmpty()) null else "Jenis Kelamin tidak boleh kosong",
+            alamat = if (event.alamat.isNotEmpty()) null else "Alamat tidak boleh kosong",
+            kelas = if (event.kelas.isNotEmpty()) null else "Kelas tidak boleh kosong",
+            angkatan = if (event.angkatan.isNotEmpty()) null else "Angkatan tidak boleh kosong"
         )
         uiState = uiState.copy(isEntityValid = errorState)
         return errorState.isVallid()
     }
 
     // Menyimpan data ke repository
-    fun saveData(){
+    fun saveData() {
         val currentEvent = uiState.mahasiswaEvent
-        if (validateFields()){
-            viewModelScope.launch{
+        if (validateFields()) {
+            viewModelScope.launch {
                 try {
                     repositoryMhs.insertMhs(currentEvent.toMahasiswaEntity())
                     uiState = uiState.copy(
@@ -47,22 +47,24 @@ class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs): ViewMod
                         mahasiswaEvent = MahasiswaEvent(),
                         isEntityValid = FormErrorState()
                     )
-                } catch (e:Exception){
+                } catch (e: Exception) {
                     uiState = uiState.copy(
-                        snackBarMessage = "Data gagal disimpan"
+                        snackBarMessage = "Data gagal disimpan: ${e.message}"
                     )
                 }
             }
-        }else{
+        } else {
             uiState = uiState.copy(
                 snackBarMessage = "Input tidak valid. Periksa kembali data Anda"
             )
         }
     }
-    fun resetSnackBoxMessage(){
+
+    fun resetSnackBoxMessage() {
         uiState = uiState.copy(snackBarMessage = null)
     }
 }
+
 
 
 data class MahasiswaEvent(
