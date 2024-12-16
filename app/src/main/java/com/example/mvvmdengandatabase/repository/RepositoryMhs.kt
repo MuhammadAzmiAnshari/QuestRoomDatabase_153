@@ -8,7 +8,7 @@ interface RepositoryMhs {
 
     suspend fun insertMhs(mahasiswa: Mahasiswa)
 
-    fun getAllMhs(): Flow<Mahasiswa>
+    fun getAllMhs(): Flow<List<Mahasiswa>>
 
     fun getMhs(nim : String): Flow<Mahasiswa>
 
