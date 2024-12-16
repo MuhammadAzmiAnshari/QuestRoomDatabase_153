@@ -9,18 +9,15 @@ import com.example.mvvmdengandatabase.data.entity.Mahasiswa
 import com.example.mvvmdengandatabase.repository.LocalRepositoryMhs
 import kotlinx.coroutines.launch
 
-
 class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewModel() {
     var uiState by mutableStateOf(MhsUiState())
 
-    // Memperbarui state berdasarkan input pengguna
     fun updateState(mahasiswaEvent: MahasiswaEvent) {
         uiState = uiState.copy(
             mahasiswaEvent = mahasiswaEvent
         )
     }
 
-    // Validasi data input pengguna
     private fun validateFields(): Boolean {
         val event = uiState.mahasiswaEvent
         val errorState = FormErrorState(
@@ -35,7 +32,6 @@ class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewMo
         return errorState.isValid()
     }
 
-    // Menyimpan data ke repository
     fun saveData() {
         val currentEvent = uiState.mahasiswaEvent
         if (validateFields()) {
@@ -65,7 +61,6 @@ class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewMo
     }
 }
 
-//data class Variabel yang menyimpan data input form
 data class MahasiswaEvent(
     val nim: String = "",
     val nama: String = "",
@@ -88,11 +83,9 @@ data class FormErrorState(
     val alamat: String? = null,
     val kelas: String? = null,
     val angkatan: String? = null,
-){
-    fun isValid(): Boolean{
+) {
+    fun isValid(): Boolean {
         return nim == null && nama == null && jenisKelamin == null &&
                 alamat == null && kelas == null && angkatan == null
     }
 }
-
-
