@@ -31,8 +31,8 @@ class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewMo
             kelas = if (event.kelas.isNotEmpty()) null else "Kelas tidak boleh kosong",
             angkatan = if (event.angkatan.isNotEmpty()) null else "Angkatan tidak boleh kosong"
         )
-        uiState = uiState.copy(isEntityValid = errorState)
-        return errorState.isVallid()
+        uiState = uiState.copy(isEntryValid = errorState)
+        return errorState.isValid()
     }
 
     // Menyimpan data ke repository
@@ -45,7 +45,7 @@ class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewMo
                     uiState = uiState.copy(
                         snackBarMessage = "Data berhasil disimpan",
                         mahasiswaEvent = MahasiswaEvent(),
-                        isEntityValid = FormErrorState()
+                        isEntryValid = FormErrorState()
                     )
                 } catch (e: Exception) {
                     uiState = uiState.copy(
@@ -60,7 +60,7 @@ class MahasiswaViewModel(private val repositoryMhs: LocalRepositoryMhs) : ViewMo
         }
     }
 
-    fun resetSnackBoxMessage() {
+    fun resetSnackBarMessage() {
         uiState = uiState.copy(snackBarMessage = null)
     }
 }
@@ -77,7 +77,7 @@ data class MahasiswaEvent(
 
 data class MhsUiState(
     val mahasiswaEvent: MahasiswaEvent = MahasiswaEvent(),
-    val isEntityValid: FormErrorState = FormErrorState(),
+    val isEntryValid: FormErrorState = FormErrorState(),
     val snackBarMessage: String? = null,
 )
 
@@ -89,7 +89,7 @@ data class FormErrorState(
     val kelas: String? = null,
     val angkatan: String? = null,
 ){
-    fun isVallid(): Boolean{
+    fun isValid(): Boolean{
         return nim == null && nama == null && jenisKelamin == null &&
                 alamat == null && kelas == null && angkatan == null
     }

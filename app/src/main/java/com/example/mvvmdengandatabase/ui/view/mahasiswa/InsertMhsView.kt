@@ -51,7 +51,7 @@ fun InsertMhsView(
         uiState.snackBarMessage?.let { message ->
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(message)
-                viewModel.resetSnackBoxMessage()
+                viewModel.resetSnackBarMessage()
             }
         }
     }
@@ -103,7 +103,7 @@ fun InsertBodyMhs(
         FormMahasiswa(
             mahasiswaEvent = uiState.mahasiswaEvent,
             onValueChange = onValueChange,
-            errorState = uiState.isEntityValid,
+            errorState = uiState.isEntryValid,
             modifier = Modifier.fillMaxWidth()
         )
         Button(

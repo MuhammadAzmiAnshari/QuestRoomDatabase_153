@@ -2,6 +2,7 @@ package com.example.mvvmdengandatabase.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,7 @@ class UpdateMhsViewModel(
     private val repositoryMhs: RepositoryMhs
 ) : ViewModel(){
 
-    var updateUIState by mutableStateOf(MhsUiState)
+    var updateUIState by mutableStateOf(MhsUiState())
         private set
 
     private val _nim: String = checkNotNull(savedStateHandle[DestinasiUpdate.NIM])
@@ -83,6 +84,6 @@ class UpdateMhsViewModel(
         updateUIState = updateUIState.copy(snackBarMessage = null)
     }
 }
-fun Mahasiswa.toUIStateMhs(): MhsUIState = MhsUIState(
+fun Mahasiswa.toUIStateMhs(): MhsUiState = MhsUiState(
     mahasiswaEvent = this.toDetailUiEvent(),
 )
